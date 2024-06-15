@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/12 16:16:16 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/15 16:29:29 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@
 #include <time.h>
 #include <limits.h>
 
-typedef enum {THINKING, EATING, SLEEPING, DEAD} PHILOSOPHER_STATE;
 typedef struct philosopher
 {
 	int					id; // id du philosophe
 	pthread_t			thread; // thread de chaque philosophe
 	pthread_mutex_t		*left_fork; //mutex de la fourchette gauche
 	pthread_mutex_t		*right_fork; //mutex de la fourchette droite
-	PHILOSOPHER_STATE	state;
 	int					nb_meals_eaten; //nbr de repas mangés
 	pthread_mutex_t		meals_increment_mutex; //incrementations du nbre de repas mangé
 	int					time_to_die;
@@ -42,6 +40,8 @@ typedef struct philosopher
 	pthread_mutex_t		write_mutex;
 	int					*finished_eaten;
 	pthread_mutex_t		*finished_mutex;
+	pthread_mutex_t		*should_die_mutex;
+	int					*should_die;
 } philosopher_t;
 
 
@@ -57,7 +57,9 @@ void		free_memory(char **args);
 char		**parse_input(int ac, char **av);
 void		check_splitted_args(int ac, char **av);
 
-philosopher_t	*initialize_simulation(philosopher_t *philosophers, char **av, int n, int *finished_count, pthread_mutex_t *finished_mutex);
+void			initialize_simulation(philosopher_t *philosophers, char **av, int n);
+philosopher_t	*initialize_mutexes(philosopher_t *philosophers, int n);
+
 
 void		assignin_forks(philosopher_t *philosophers, int n);
 long long	get_the_time(void);
@@ -65,10 +67,10 @@ void		*routine_process(void *arg);
 char		*ft_strncpy(char *s1, char *s2, int n);
 int			ft_isdigit(char c);
 
-void	check_dead(philosopher_t *philosopher, int n);
+void	check_dead(philosopher_t *philosopher);
 
 ///////
-// void	usleep(int sleep_duration);
+void	customized_usleep(int sleep_duration);
 //////
 
 #endif

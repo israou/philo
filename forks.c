@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:22:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/11 16:44:24 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/15 15:55:56 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	assignin_forks(philosopher_t *philosophers, int n)
 	{
 		philosophers[i].left_fork = &philosophers->fork[i];
 		philosophers[i].right_fork = &philosophers->fork[(i + 1) % n];
-		pthread_create(&philosophers[i].thread, NULL, routine_process, &philosophers[i]);
+		// pthread_create(&philosophers[i].thread, NULL, routine_process, &philosophers[i]);
 		// pthread_detach(philosophers[i].thread);
 		i++;
 	}

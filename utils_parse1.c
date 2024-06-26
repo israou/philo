@@ -1,40 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   utils_parse1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 15:22:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/26 20:26:36 by ichaabi          ###   ########.fr       */
+/*   Created: 2024/06/09 20:09:11 by ichaabi           #+#    #+#             */
+/*   Updated: 2024/06/26 20:43:09 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	assignin_forks(philosopher_t *philosophers, int n)
+int	check_negative(const char *str)
+{
+	if (ft_atoi(str) == -2)
+		return (-1);
+	if (ft_atoi(str) < 0)
+	{
+		printf("NEEEGAAATIIIVEEE!!!\n");
+		return (-1);
+	}
+	return (0);
+}
+
+int	check_empty(const char *str)
 {
 	int	i;
 
 	i = 0;
-	philosophers->nb_philo = n;
-	philosophers->fork = malloc(sizeof(pthread_mutex_t) * n);
-	if (!philosophers->fork)
+	if (str[0] == '\0')
 	{
-		printf("malloc erreur, mutex des fourchettes");
-		return (-1);
+		printf("Empty argument found\n");
+		return (1);
 	}
-	while (i < n)
-	{
-		pthread_mutex_init(&philosophers->fork[i], NULL);
+	while (str[i] == ' ')
 		i++;
-	}
-	i = 0;
-	while (i < n)
+	if (str[i] == '\0')
 	{
-		philosophers[i].left_fork = &philosophers->fork[i];
-		philosophers[i].right_fork = &philosophers->fork[(i + 1) % n];
-		i++;
+		printf("Empty argument found\n");
+		return (1);
 	}
+	return (0);
+}
+
+int	ft_isdigit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
 	return (0);
 }

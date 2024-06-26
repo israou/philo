@@ -1,122 +1,114 @@
 /* ************************************************************************** */
-/*                                           b                                  */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/13 17:08:20 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/26 21:18:12 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	initialize_simulation(philosopher_t *philosophers, char **av, int n)
+void	init_shared_data(philosopher_t *philosophers, int n)
+{
+	int				i;
+	int				*finished_count;
+	int				*stop_simulation;
+	pthread_mutex_t	*finished_mutex;
+
+	i = 0;
+	finished_count = malloc(sizeof(int));
+	stop_simulation = malloc(sizeof(int));
+	finished_mutex = malloc(sizeof(pthread_mutex_t));
+	*finished_count = 0;
+	*stop_simulation = 0;
+	while (i < n)
+	{
+		philosophers[i].finished_eaten = finished_count;
+		philosophers[i].stop_simulation = stop_simulation;
+		philosophers[i].finished_mutex = finished_mutex;
+		pthread_mutex_init(&philosophers[i].death_check_mutex, NULL);
+		i++;
+	}
+	pthread_mutex_init(finished_mutex, NULL);
+}
+
+void	init_philo_attributes(philosopher_t *philo, char **av, int n)
 {
 	int	i;
-	int	*should_die = malloc(sizeof(int));
-	should_die = 0;
 
-	// pthread_mutex_t	*should_die_mutex = malloc(sizeof(pthr));
-	// pthread_mutex_init(should_die_mutex, NULL);
 	i = 0;
 	while (i < n)
 	{
-		philosophers[i].id = i + 1; //l operateur . accede a un element specifique il agit comme index mais il represente une structure
-		// philosophers[i].state = THINKING;
-		philosophers[i].nb_philo = ft_atoi(av[1]);
-		philosophers[i].time_to_die = ft_atoi(av[2]);
-		philosophers[i].time_to_eat = ft_atoi(av[3]);
-		philosophers[i].time_to_sleep = ft_atoi(av[4]);
-		philosophers[i].n_times_m_eat = (av[5])? ft_atoi(av[5]) : -1;
-		philosophers[i].nb_meals_eaten = 0;
-		philosophers[i].start_simulation = get_the_time();
-		philosophers[i].last_happy_meal = get_the_time();
-		pthread_mutex_init(&philosophers[i].write_mutex, NULL);
-		pthread_mutex_init(&philosophers[i].meals_increment_mutex, NULL);
-
+		philo[i].id = i + 1;
+		philo[i].nb_philo = ft_atoi(av[1]);
+		philo[i].time_to_die = ft_atoi(av[2]);
+		philo[i].time_to_eat = ft_atoi(av[3]);
+		philo[i].time_to_sleep = ft_atoi(av[4]);
+		if (av[5])
+		{
+			philo[i].n_times_m_eat = ft_atoi(av[5]);
+		}
+		else
+		{
+			philo[i].n_times_m_eat = -1;
+		}
+		philo[i].nb_meals_eaten = 0;
+		philo[i].start_simulation = get_the_time();
+		philo[i].last_happy_meal = get_the_time();
 		i++;
 	}
-
 }
 
-philosopher_t	*initialize_mutexes(philosopher_t *philosophers, int n)
+void	init_philo_mutexes(philosopher_t *philosophers, int n)
 {
-	int i = 0;
+	int	i;
 
-	int				*finished_count = malloc(sizeof(int));
-	*finished_count = 0;
-	pthread_mutex_t	*finished_mutex = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(finished_mutex, NULL);
-
-	int				*should_die = malloc(sizeof(int));
-	*should_die = 0;
-	pthread_mutex_t	*should_die_mutex = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(should_die_mutex, NULL);
+	i = 0;
 	while (i < n)
 	{
-		// initialize_simulation(philosophers, av, n);
-		philosophers[i].finished_eaten = finished_count;//new
-		philosophers[i].finished_mutex = finished_mutex;
-		philosophers[i].should_die = should_die;
-		philosophers[i].should_die_mutex = should_die_mutex;
+		pthread_mutex_init(&philosophers[i].last_happy_meal_mutex, NULL);
+		pthread_mutex_init(&philosophers[i].write_mutex, NULL);
+		pthread_mutex_init(&philosophers[i].meals_increment_mutex, NULL);
 		i++;
 	}
+}
+
+philosopher_t	*init_simulation(philosopher_t *philosophers, char **av, int n)
+{
+	init_shared_data(philosophers, n);
+	init_philo_attributes(philosophers, av, n);
+	init_philo_mutexes(philosophers, n);
 	return (philosophers);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	int	i;
+	philosopher_t	*philosopher;
+	int				n;
 
-	i = 0;
-	int n = ft_atoi(av[1]);
+	n = ft_atoi(av[1]);
 	if (ac < 5 || ac > 6)
-		errors("invalid number of aguments");
-	philosopher_t *philosopher = malloc(sizeof(philosopher_t) * n);
+	{
+		printf("Invalid argument\n");
+		return (-1);
+	}
+	philosopher = malloc(sizeof(philosopher_t) * n);
 	if (!philosopher)
-		errors("erreur malloc main philosopher");
-
-
-	// // int philosophers_finished_eating = 0;
-	// pthread_mutex_t finished_mutex;
-
-
-	philosopher[i].nb_philo = ft_atoi(av[1]);
-	philosopher[i].time_to_die = ft_atoi(av[2]);
-	philosopher[i].time_to_eat = ft_atoi(av[3]);
-	philosopher[i].time_to_sleep = ft_atoi(av[4]);
-	philosopher[i].n_times_m_eat = (av[5])? ft_atoi(av[5]) : -1;
-	check_splitted_args(ac, av);
-
-	initialize_simulation(philosopher, av, n);
-	philosopher = initialize_mutexes(philosopher, n);
-
-	assignin_forks(philosopher, philosopher->nb_philo);
-
-	i = 0;
-	while (i < n)
 	{
-		pthread_create(&philosopher[i].thread, NULL, routine_process, &philosopher[i]);
-		i++;
+		printf("error malloc --> philospher\n");
+		return (-1);
 	}
-	i = 0;
-	while (i < n)
+	if (check_splitted_args(ac, av) == -2)
 	{
-		pthread_join(philosopher[i].thread, NULL);
-		i++;
+		return (-1);
 	}
-	i = 0;
-	while (i < n)
-	{
-		pthread_mutex_destroy(philosopher[i].left_fork);
-		pthread_mutex_destroy(philosopher[i].right_fork);
-		pthread_mutex_destroy(&philosopher[i].meals_increment_mutex);
-		pthread_mutex_destroy(&philosopher[i].write_mutex);
-		pthread_mutex_destroy(philosopher[0].finished_mutex);
-		pthread_mutex_destroy(philosopher[0].should_die_mutex);
-		i++;
-	}
-
+	philosopher = init_simulation(philosopher, av, n);
+	if (assignin_forks(philosopher, philosopher->nb_philo) == -1)
+		return (-1);
+	create_threads(philosopher);
+	destroy(philosopher);
 }

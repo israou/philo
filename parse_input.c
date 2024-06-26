@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/11 15:16:53 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/26 20:29:38 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,51 @@ char	**parse_input(int ac, char **av)
 {
 	int		i;
 	char	**splitted_args;
-	i = 0;
-	while (av[++i])
-		if (check_empty(av[i]))
-			errors("empty");
+
+	i = 1;
+	if (ac == 1)
+	{
+		printf("NOT ENOUGH\n");
+		return (NULL);
+	}
+	while (av[i])
+	{
+		if (check_empty(av[i]) == 1)
+			return (NULL);
+		if (check_negative(av[i]) == -1)
+			return (NULL);
+		i++;
+	}
 	splitted_args = ft_split(ft_strjoin(av + 1, " ", ac -1), ' ');
 	if (splitted_args == NULL)
-		errors("error join or split splitted_args");
+		return (NULL);
 	return (splitted_args);
 }
 
-void	check_splitted_args(int ac, char **av)
+int	itterate(char	**splitted_args)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (splitted_args[i])
+	{
+		j = 0;
+		while (splitted_args[i][j])
+		{
+			if (ft_isdigit(splitted_args[i][j]) != 1)
+			{
+				printf("Argument found is not digit \n");
+				return (-2);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	check_splitted_args(int ac, char **av)
 {
 	int		i;
 	int		j;
@@ -35,22 +69,15 @@ void	check_splitted_args(int ac, char **av)
 	i = 0;
 	j = 0;
 	splitted_args = parse_input(ac, av);
+	if (!splitted_args)
+		return (-2);
 	while (splitted_args[i])
 	{
-		if (ft_atoi(splitted_args[i]) < 0)
-			errors("negative!!!!");
+		if (ft_atoi(splitted_args[i]) == -2)
+			return (-2);
 		i++;
 	}
-	i = 0;
-	while (splitted_args[i])
-	{
-		j = 0;
-		while (splitted_args[i][j])
-		{
-			if (ft_isdigit(splitted_args[i][j]) != 1)
-				errors("not DIGGGIIIT!!!!");
-			j++;
-		}
-		i++;
-	}
+	if (itterate(splitted_args) == -2)
+		return (-2);
+	return (0);
 }

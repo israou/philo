@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/26 21:15:48 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/27 15:00:44 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ typedef struct philosopher
 	pthread_mutex_t		write_mutex;
 	int					*finished_eaten;
 	pthread_mutex_t		*finished_mutex;
-	int					*dead;
 	pthread_mutex_t		death_check_mutex;
 	pthread_mutex_t		*death_thread;
 	int					*stop_simulation;
+	int					*stop;
+	pthread_mutex_t		*stop_mutex;
 }	philosopher_t;
 
 //-------------------------------parsing
@@ -65,7 +66,8 @@ int				assignin_forks(philosopher_t *philosophers, int n);
 long long		get_the_time(void);
 void			*routine_process(void *arg);
 void			customized_usleep(int sleep_duration);
-
+void		thinking_process(philosopher_t *philosopher);
+void		sleeping_process(philosopher_t *philosopher);
 //death
 void			*death_checker(void *arg);
 
@@ -79,4 +81,5 @@ philosopher_t	*init_simulation(philosopher_t *philosophers, char **av, int n);
 void			init_shared_data(philosopher_t *philosophers, int n);
 void			init_philo_attributes(philosopher_t *philo, char **av, int n);
 void			init_philo_mutexes(philosopher_t *philosophers, int n);
+
 #endif

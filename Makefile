@@ -6,7 +6,7 @@
 #    By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 21:25:01 by ichaabi           #+#    #+#              #
-#    Updated: 2024/06/26 23:28:17 by ichaabi          ###   ########.fr        #
+#    Updated: 2024/06/27 16:58:41 by ichaabi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
 
 RM = rm -f
 

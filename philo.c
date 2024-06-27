@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/26 21:18:12 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/27 14:01:55 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,31 @@ void	init_shared_data(philosopher_t *philosophers, int n)
 	int				i;
 	int				*finished_count;
 	int				*stop_simulation;
+	int				*stop;
 	pthread_mutex_t	*finished_mutex;
+	pthread_mutex_t	*stop_mutex;
 
 	i = 0;
 	finished_count = malloc(sizeof(int));
 	stop_simulation = malloc(sizeof(int));
+	stop = malloc(sizeof(int));
 	finished_mutex = malloc(sizeof(pthread_mutex_t));
+	stop_mutex = malloc(sizeof(pthread_mutex_t));
 	*finished_count = 0;
 	*stop_simulation = 0;
+	*stop = 0;
+	pthread_mutex_init(finished_mutex, NULL);
+	pthread_mutex_init(stop_mutex, NULL);
 	while (i < n)
 	{
 		philosophers[i].finished_eaten = finished_count;
 		philosophers[i].stop_simulation = stop_simulation;
+		philosophers[i].stop = stop;
 		philosophers[i].finished_mutex = finished_mutex;
+		philosophers[i].stop_mutex = stop_mutex;
 		pthread_mutex_init(&philosophers[i].death_check_mutex, NULL);
 		i++;
 	}
-	pthread_mutex_init(finished_mutex, NULL);
 }
 
 void	init_philo_attributes(philosopher_t *philo, char **av, int n)

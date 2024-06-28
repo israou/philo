@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/26 20:29:38 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/24 12:46:56 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	**parse_input(int ac, char **av)
 {
 	int		i;
 	char	**splitted_args;
-
 	i = 1;
 	if (ac == 1)
 	{
@@ -37,12 +36,11 @@ char	**parse_input(int ac, char **av)
 	return (splitted_args);
 }
 
-int	itterate(char	**splitted_args)
+int itterate(char	**splitted_args)
 {
-	int	i;
-	int	j;
+	int i = 0;
 
-	i = 0;
+	int j;
 	while (splitted_args[i])
 	{
 		j = 0;
@@ -70,14 +68,15 @@ int	check_splitted_args(int ac, char **av)
 	j = 0;
 	splitted_args = parse_input(ac, av);
 	if (!splitted_args)
-		return (-2);
+		return(-2);
 	while (splitted_args[i])
 	{
+
 		if (ft_atoi(splitted_args[i]) == -2)
 			return (-2);
 		i++;
 	}
 	if (itterate(splitted_args) == -2)
-		return (-2);
+		return(-2);
 	return (0);
 }

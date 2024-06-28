@@ -6,17 +6,18 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:35:24 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/26 20:27:28 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/24 17:45:53 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+
 int	ft_atoi(const char *str)
 {
-	int			i;
-	long long	sign;
-	long long	res;
+	int	i;
+	long long sign;
+	long long res;
 
 	i = 0;
 	sign = 1;
@@ -33,7 +34,7 @@ int	ft_atoi(const char *str)
 		if (str[i] == '-' || str[i] == '+')
 		{
 			printf("too much signs\n");
-			return (-2);
+			return(-2);
 		}
 	}
 	while (str[i] >= '0' && str[i] <= '9')
@@ -47,6 +48,12 @@ int	ft_atoi(const char *str)
 		return (-2);
 	}
 	return (res * sign);
+}
+
+void	errors(char	*str)
+{
+	printf("%s\n", str);
+	exit(EXIT_FAILURE);
 }
 
 int	error_int(char *str)

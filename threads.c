@@ -6,40 +6,48 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:23:51 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/27 17:06:15 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/06/27 23:05:06 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	create_threads(philosopher_t *philo)
+void	create_threads(philosopher_t *philosopher)
 {
-	// pthread_t		death_thread;
-	int				i;
-	int				n;
+	int	i;
+	int	n;
+	int	dead_flag;
+	dead_flag = 0;
+	pthread_mutex_t	death_check_mutex;
+	pthread_mutex_init(&death_check_mutex, NULL);
 
 	i = 0;
-	n = philo->nb_philo;
+	n = philosopher->nb_philo;
 	while (i < n)
 	{
-		pthread_create(&philo[i].thread, NULL, routine_process, &philo[i]);
+		philosopher[i].death_check_mutex = &death_check_mutex;
+		philosopher[i].dead = &dead_flag;
+		pthread_create(&philosopher[i].thread, NULL, routine_process, &philosopher[i]);
 		i++;
 	}
-	// pthread_create(&death_thread, NULL, death_checker, philo);
+	pthread_t death_thread;
+	pthread_create(&death_thread, NULL, death_checker, philosopher);
 	i = 0;
 	while (i < n)
 	{
-		pthread_join(philo[i].thread, NULL);
+		pthread_join(philosopher[i].thread, NULL);
 		i++;
 	}
-	// pthread_join(death_thread, NULL);
+	pthread_join(death_thread, NULL);
 }
 
-void	*death_checker(void *arg)
+
+
+void *death_checker(void *arg)
 {
 	philosopher_t	*philosophers;
-	int				n;
-	int				i;
+	int	n;
+	int	i;
 
 	philosophers = (philosopher_t *)arg;
 	n = philosophers[0].nb_philo;
@@ -53,10 +61,11 @@ void	*death_checker(void *arg)
 			{
 				pthread_mutex_lock(&philosophers[i].write_mutex);
 				printf("%lld %d is died\n", get_the_time() - philosophers[i].start_simulation, philosophers[i].id);
+				*(philosophers[i].dead) = 1;
 				*(philosophers[i].stop_simulation) = 1;
 				pthread_mutex_unlock(&philosophers[i].last_happy_meal_mutex);
 				pthread_mutex_unlock(&philosophers[i].write_mutex);
-				return (NULL);
+				return NULL;
 			}
 			pthread_mutex_unlock(&philosophers[i].last_happy_meal_mutex);
 			i++;
@@ -66,12 +75,13 @@ void	*death_checker(void *arg)
 		if (*(philosophers[0].stop_simulation))
 		{
 			pthread_mutex_unlock(philosophers[0].finished_mutex);
-			break ;
+			break;
 		}
 		pthread_mutex_unlock(philosophers[0].finished_mutex);
 	}
-	return (NULL);
+	return NULL;
 }
+
 
 void	destroy(philosopher_t *philosopher)
 {
@@ -86,8 +96,6 @@ void	destroy(philosopher_t *philosopher)
 		pthread_mutex_destroy(philosopher[i].right_fork);
 		pthread_mutex_destroy(&philosopher[i].meals_increment_mutex);
 		pthread_mutex_destroy(&philosopher[i].write_mutex);
-		pthread_mutex_destroy(&philosopher[i].death_check_mutex);
-		pthread_mutex_destroy(philosopher[i].stop_mutex);
 		i++;
 	}
 }

@@ -6,23 +6,23 @@
 #    By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 21:25:01 by ichaabi           #+#    #+#              #
-#    Updated: 2024/06/27 16:58:41 by ichaabi          ###   ########.fr        #
+#    Updated: 2024/06/25 16:32:48 by ichaabi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
+NAME_B =
+
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
 SRC =	ft_atoi.c \
 		parse_input.c \
-		utils_parse1.c \
-		utils_parse2.c \
-		utils_parse3.c \
+		utils_parsing.c \
 		philo.c \
 		get_time.c \
 		forks.c \
@@ -30,21 +30,29 @@ SRC =	ft_atoi.c \
 		free_memory.c \
 		threads.c \
 
+
+SRC_B =
+
 OBJ = $(SRC:.c=.o)
+
+OBJB = $(SRC_B:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(OBJ) -o $(NAME)
+
+bonus: $(OBJB)
+	$(CC) $(OBJB) -o $(NAME_B)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(OBJB)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME_B)
 
 re: fclean all
 

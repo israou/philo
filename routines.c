@@ -97,26 +97,23 @@ void *routine_process(void *arg)
 
 		pthread_mutex_lock(&philosopher->meals_increment_mutex);
 		philosopher->nb_meals_eaten++;
+		pthread_mutex_unlock(&philosopher->meals_increment_mutex);
 		pthread_mutex_lock(&philosopher->last_happy_meal_mutex);
 		philosopher->last_happy_meal = get_the_time();
 		pthread_mutex_unlock(&philosopher->last_happy_meal_mutex);
 //n_times_must_eat:
+		pthread_mutex_lock(&philosopher->stop_mutex);
 		if (n_times_must_eat(philosopher) == 0)
 		{
-			// pthread_mutex_lock(&philosopher->write_mutex);
+			// pthread_mutex_lock(&philosopher->stop_mutex);
 			*(philosopher->stop_simulation) = -11;
-			// pthread_mutex_unlock(&philosopher->write_mutex);
+			pthread_mutex_unlock(&philosopher->stop_mutex);
 			break;
 		}
-		pthread_mutex_unlock(&philosopher->meals_increment_mutex);
+		pthread_mutex_unlock(&philosopher->stop_mutex);
 
 		pthread_mutex_unlock(philosopher->left_fork);
 		pthread_mutex_unlock(philosopher->right_fork);
-
-		if (*(philosopher->stop_simulation))
-		{
-			break ;
-		}
 //thinking:
 		pthread_mutex_lock(&philosopher->write_mutex);
 		printf("%lld %d is thinking\n", get_the_time() - philosopher->start_simulation, philosopher->id);

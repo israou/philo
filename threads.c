@@ -47,6 +47,7 @@ void	death_checker(philosopher_t *philosophers)
 {
 	int	n;
 	int	i;
+	int ttsstt = 0;
 
 	n = philosophers[0].nb_philo;
 	puts("HEEERRRE I CHEECKCKCKCKC");
@@ -55,7 +56,10 @@ void	death_checker(philosopher_t *philosophers)
 		i = 0;
 		while (i < n)
 		{
-			if (*(philosophers[i].stop_simulation) == -11)
+			pthread_mutex_lock(&philosophers[i].stop_mutex);
+			ttsstt = *(philosophers[i].stop_simulation);
+			pthread_mutex_unlock(&philosophers[i].stop_mutex);
+			if (ttsstt == -11)
 				return;
 			pthread_mutex_lock(&philosophers[i].last_happy_meal_mutex);
 			if (get_the_time() - philosophers[i].last_happy_meal >= philosophers[i].time_to_die)

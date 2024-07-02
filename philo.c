@@ -62,6 +62,7 @@ void initialize_philosopher_mutexes(philosopher_t *philosophers, int n)
 	i = 0;
 	while (i < n)
 	{
+		pthread_mutex_init(&philosophers[i].stop_mutex, NULL);
 		pthread_mutex_init(&philosophers[i].last_happy_meal_mutex, NULL);
 		pthread_mutex_init(&philosophers[i].write_mutex, NULL);
 		pthread_mutex_init(&philosophers[i].meals_increment_mutex, NULL);

@@ -61,11 +61,9 @@ int itterate(char	**splitted_args)
 int	check_splitted_args(int ac, char **av)
 {
 	int		i;
-	int		j;
 	char	**splitted_args;
 
 	i = 0;
-	j = 0;
 	splitted_args = parse_input(ac, av);
 	if (!splitted_args)
 		return(-2);

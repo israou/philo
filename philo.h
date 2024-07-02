@@ -45,7 +45,7 @@ typedef struct philosopher
 	pthread_mutex_t		*death_check_mutex;
 	pthread_mutex_t		*death_thread;
 	int					*stop_simulation;
-	pthread_mutex_t		*stop_mutex;
+	pthread_mutex_t		stop_mutex;
 } philosopher_t;
 
 

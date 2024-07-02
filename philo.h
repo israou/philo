@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/27 23:03:34 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/02 03:24:33 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ long long		get_the_time(void);
 void			*routine_process(void *arg);
 void			customized_usleep(int sleep_duration);
 
-int	too_much_sign();
-
 //death
-void			*death_checker(void *arg);
+void			death_checker(philosopher_t *philosophers);
 
 //threads
 void			destroy(philosopher_t *philosopher);

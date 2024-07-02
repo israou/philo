@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/24 15:01:03 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/02 03:31:55 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ int main(int ac, char **av)
 	if (assignin_forks(philosopher, philosopher->nb_philo) == -1)
 		return (-1);
 	create_threads(philosopher);
-	destroy(philosopher);
+	death_checker(philosopher);
 }

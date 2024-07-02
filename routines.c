@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:34:37 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/02 03:59:58 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/02 23:35:36 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,19 @@ int	n_times_must_eat(philosopher_t *philosopher)
 		{
 			printf("All philosophers have eaten at least %d times\n", philosopher->n_times_m_eat);
 			return (0);
-			// *(philosopher->stop_simulation) = 1;
 		}
 		pthread_mutex_unlock(philosopher->finished_mutex);
 	}
 	return (-1);
 }
+
+void	thinking_process(philosopher_t *philosopher)
+{
+	pthread_mutex_lock(&philosopher->write_mutex);
+	printf("%lld %d is thinking\n", get_the_time() - philosopher->start_simulation, philosopher->id);
+	pthread_mutex_unlock(&philosopher->write_mutex);
+}
+
 void	sleeping_process(philosopher_t *philosopher)
 {
 	pthread_mutex_lock(&philosopher->write_mutex);
@@ -44,83 +51,66 @@ void	sleeping_process(philosopher_t *philosopher)
 	customized_usleep(philosopher->time_to_sleep);
 }
 
-void *routine_process(void *arg)
+void	eating_process(philosopher_t *philosopher)
+{
+	pthread_mutex_lock(philosopher->left_fork);
+	pthread_mutex_lock(&philosopher->write_mutex);
+	printf("%lld %d has taken left fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
+	pthread_mutex_unlock(&philosopher->write_mutex);
+	pthread_mutex_lock(philosopher->right_fork);
+	pthread_mutex_lock(&philosopher->write_mutex);
+	printf("%lld %d has taken right fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
+	pthread_mutex_unlock(&philosopher->write_mutex);
+	pthread_mutex_lock(&philosopher->write_mutex);
+	printf("%lld %d is eating\n", get_the_time() - philosopher->start_simulation, philosopher->id);
+	pthread_mutex_unlock(&philosopher->write_mutex);
+	customized_usleep(philosopher->time_to_eat);
+	pthread_mutex_lock(&philosopher->meals_increment_mutex);
+	philosopher->nb_meals_eaten++;
+	pthread_mutex_unlock(&philosopher->meals_increment_mutex);
+	pthread_mutex_lock(&philosopher->last_happy_meal_mutex);
+	philosopher->last_happy_meal = get_the_time();
+	pthread_mutex_unlock(&philosopher->last_happy_meal_mutex);
+}
+
+void	one_philo_process(philosopher_t *philosopher)
+{
+	pthread_mutex_lock(philosopher->left_fork);
+	printf("%lld %d has taken the left fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
+	pthread_mutex_unlock(philosopher->left_fork);
+}
+
+void	synchronisation(philosopher_t *philosopher)
+{
+	if (philosopher->id % 2 != 0)
+		usleep(100);
+}
+
+void	*routine_process(void *arg)
 {
 	philosopher_t *philosopher = (philosopher_t *)arg;
 
 	if (philosopher->nb_philo == 1)
 	{
-		pthread_mutex_lock(philosopher->left_fork);
-		printf("%lld %d has taken the left fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
-		pthread_mutex_unlock(philosopher->left_fork);
+		one_philo_process(philosopher);
 		return NULL;
 	}
-	if (philosopher->id % 2 != 0)
-		usleep(100);
+	synchronisation(philosopher);
 	while (1)
 	{
-		// pthread_mutex_lock(&philosopher->write_mutex);
-		// if (*(philosopher->stop_simulation))
-		// {
-		// 	pthread_mutex_unlock(&philosopher->write_mutex);
-		// 	break;
-		// }
-		// pthread_mutex_unlock(&philosopher->write_mutex);
-//eating :
-		pthread_mutex_lock(philosopher->left_fork);
-		// if (*(philosopher->stop_simulation))
-		// {
-		// 	pthread_mutex_unlock(&philosopher->write_mutex);
-		// 	pthread_mutex_unlock(philosopher->left_fork);
-		// 	break;
-		// }
-		pthread_mutex_lock(&philosopher->write_mutex);
-		printf("%lld %d has taken left fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
-		pthread_mutex_unlock(&philosopher->write_mutex);
-
-		pthread_mutex_lock(philosopher->right_fork);
-		// if (*(philosopher->stop_simulation))
-		// {
-		// 	pthread_mutex_unlock(&philosopher->write_mutex);
-		// 	pthread_mutex_unlock(philosopher->right_fork);
-		// 	pthread_mutex_unlock(philosopher->left_fork);
-		// 	break;
-		// }
-		pthread_mutex_lock(&philosopher->write_mutex);
-		printf("%lld %d has taken right fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
-		pthread_mutex_unlock(&philosopher->write_mutex);
-
-		pthread_mutex_lock(&philosopher->write_mutex);
-		printf("%lld %d is eating\n", get_the_time() - philosopher->start_simulation, philosopher->id);
-		pthread_mutex_unlock(&philosopher->write_mutex);
-		customized_usleep(philosopher->time_to_eat);
-
-		pthread_mutex_lock(&philosopher->meals_increment_mutex);
-		philosopher->nb_meals_eaten++;
-		pthread_mutex_unlock(&philosopher->meals_increment_mutex);
-		pthread_mutex_lock(&philosopher->last_happy_meal_mutex);
-		philosopher->last_happy_meal = get_the_time();
-		pthread_mutex_unlock(&philosopher->last_happy_meal_mutex);
-//n_times_must_eat:
-		pthread_mutex_lock(&philosopher->stop_mutex);
+		eating_process(philosopher);
+		pthread_mutex_lock(philosopher->stop_mutex);
 		if (n_times_must_eat(philosopher) == 0)
 		{
-			// pthread_mutex_lock(&philosopher->stop_mutex);
 			*(philosopher->stop_simulation) = -11;
-			pthread_mutex_unlock(&philosopher->stop_mutex);
+			pthread_mutex_unlock(philosopher->stop_mutex);
 			break;
 		}
-		pthread_mutex_unlock(&philosopher->stop_mutex);
-
+		pthread_mutex_unlock(philosopher->stop_mutex);
 		pthread_mutex_unlock(philosopher->left_fork);
 		pthread_mutex_unlock(philosopher->right_fork);
-//thinking:
-		pthread_mutex_lock(&philosopher->write_mutex);
-		printf("%lld %d is thinking\n", get_the_time() - philosopher->start_simulation, philosopher->id);
-		pthread_mutex_unlock(&philosopher->write_mutex);
-//sleeping:
+		thinking_process(philosopher);
 		sleeping_process(philosopher);
-//condition de mort:
 	}
 	return NULL;
 }

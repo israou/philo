@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/02 03:31:55 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/02 22:35:52 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,21 @@ void initialize_shared_data(philosopher_t *philosophers, int n)
 	finished_count = malloc(sizeof(int));
 	stop_simulation = malloc(sizeof(int));
 	pthread_mutex_t *finished_mutex;
-	finished_mutex  = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_t *stop_mutex;
+	finished_mutex = malloc(sizeof(pthread_mutex_t));
+	stop_mutex = malloc(sizeof(pthread_mutex_t));
 	*finished_count = 0;
 	*stop_simulation = 0;
+	pthread_mutex_init(finished_mutex, NULL);
+	pthread_mutex_init(stop_mutex, NULL);
 	while (i < n)
 	{
 		philosophers[i].finished_eaten = finished_count;
 		philosophers[i].stop_simulation = stop_simulation;
 		philosophers[i].finished_mutex = finished_mutex;
+		philosophers[i].stop_mutex = stop_mutex;
 		i++;
 	}
-	pthread_mutex_init(finished_mutex, NULL);
 }
 
 void initialize_philosopher_attributes(philosopher_t *philosophers, char **av, int n)
@@ -62,10 +66,10 @@ void initialize_philosopher_mutexes(philosopher_t *philosophers, int n)
 	i = 0;
 	while (i < n)
 	{
-		pthread_mutex_init(&philosophers[i].stop_mutex, NULL);
 		pthread_mutex_init(&philosophers[i].last_happy_meal_mutex, NULL);
 		pthread_mutex_init(&philosophers[i].write_mutex, NULL);
 		pthread_mutex_init(&philosophers[i].meals_increment_mutex, NULL);
+
 		i++;
 	}
 }

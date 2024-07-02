@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/02 03:24:33 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/02 23:17:11 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct philosopher
 	pthread_mutex_t		*death_check_mutex;
 	pthread_mutex_t		*death_thread;
 	int					*stop_simulation;
-	pthread_mutex_t		stop_mutex;
+	pthread_mutex_t		*stop_mutex;
 } philosopher_t;
 
 
@@ -72,8 +72,6 @@ void			customized_usleep(int sleep_duration);
 //death
 void			death_checker(philosopher_t *philosophers);
 
-//threads
-void			destroy(philosopher_t *philosopher);
 void			create_threads(philosopher_t *philosopher);
 int				check_negative(const char *str);
 

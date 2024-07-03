@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:34:37 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/02 23:35:36 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 01:36:10 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	eating_process(philosopher_t *philosopher)
 	pthread_mutex_lock(&philosopher->write_mutex);
 	printf("%lld %d has taken right fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
 	pthread_mutex_unlock(&philosopher->write_mutex);
+
 	pthread_mutex_lock(&philosopher->write_mutex);
 	printf("%lld %d is eating\n", get_the_time() - philosopher->start_simulation, philosopher->id);
 	pthread_mutex_unlock(&philosopher->write_mutex);
@@ -73,13 +74,6 @@ void	eating_process(philosopher_t *philosopher)
 	pthread_mutex_unlock(&philosopher->last_happy_meal_mutex);
 }
 
-void	one_philo_process(philosopher_t *philosopher)
-{
-	pthread_mutex_lock(philosopher->left_fork);
-	printf("%lld %d has taken the left fork\n", get_the_time() - philosopher->start_simulation, philosopher->id);
-	pthread_mutex_unlock(philosopher->left_fork);
-}
-
 void	synchronisation(philosopher_t *philosopher)
 {
 	if (philosopher->id % 2 != 0)
@@ -88,24 +82,20 @@ void	synchronisation(philosopher_t *philosopher)
 
 void	*routine_process(void *arg)
 {
-	philosopher_t *philosopher = (philosopher_t *)arg;
+	philosopher_t *philosopher;
 
-	if (philosopher->nb_philo == 1)
-	{
-		one_philo_process(philosopher);
-		return NULL;
-	}
+	philosopher = (philosopher_t *)arg;
 	synchronisation(philosopher);
 	while (1)
 	{
-		eating_process(philosopher);
-		pthread_mutex_lock(philosopher->stop_mutex);
 		if (n_times_must_eat(philosopher) == 0)
 		{
 			*(philosopher->stop_simulation) = -11;
 			pthread_mutex_unlock(philosopher->stop_mutex);
 			break;
 		}
+		eating_process(philosopher);
+		pthread_mutex_lock(philosopher->stop_mutex);
 		pthread_mutex_unlock(philosopher->stop_mutex);
 		pthread_mutex_unlock(philosopher->left_fork);
 		pthread_mutex_unlock(philosopher->right_fork);

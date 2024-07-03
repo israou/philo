@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:22:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/06/23 21:39:54 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/02 23:45:34 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	assignin_forks(philosopher_t *philosophers, int n)
 		printf("malloc erreur, mutex des fourchettes");
 		return (-1);
 	}
-	while (i < n)//initialiser les mutex dial lforks
+	while (i < n)
 	{
 		pthread_mutex_init( &philosophers->fork[i], NULL);
 		i++;
 	}
 	i = 0;
-	while (i < n)//ncreer les threads pour chaque philo
+	while (i < n)
 	{
 		philosophers[i].left_fork = &philosophers->fork[i];
 		philosophers[i].right_fork = &philosophers->fork[(i + 1) % n];

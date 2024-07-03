@@ -6,7 +6,7 @@
 #    By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 21:25:01 by ichaabi           #+#    #+#              #
-#    Updated: 2024/07/03 02:59:14 by ichaabi          ###   ########.fr        #
+#    Updated: 2024/07/03 03:10:32 by ichaabi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(OBJ) $(CFLAGS) -o $(NAME)
 
-%.o : %.c
+%.o : %.c philo.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 03:12:37 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 03:16:48 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int				ft_strlen(char *str);
 char			**ft_split(char *s, char c);
 char			*ft_strjoin(char **arg, char *del, int size);
 int				check_empty(const char *str);
-void			free_memory(char **args);
 char			**parse_input(int ac, char **av);
 int				check_splitted_args(int ac, char **av);
 char			*ft_strncpy(char *s1, char *s2, int n);

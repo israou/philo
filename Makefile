@@ -6,7 +6,7 @@
 #    By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 21:25:01 by ichaabi           #+#    #+#              #
-#    Updated: 2024/07/03 03:10:32 by ichaabi          ###   ########.fr        #
+#    Updated: 2024/07/03 03:16:41 by ichaabi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ SRC =	ft_atoi.c \
 		forks.c \
 		utils_routine.c \
 		routines.c \
-		free_memory.c \
 		initialize.c \
 		threads.c
 

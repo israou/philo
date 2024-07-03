@@ -6,19 +6,14 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 19:47:06 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 21:28:59 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	lk()
-{
-	system("leaks philo");
-}
 int	main(int ac, char **av)
 {
-	atexit(lk);
 	t_philosopher	*philosopher;
 	t_two_d_arr		splitted_args;
 	int				n;

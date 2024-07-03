@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 02:03:04 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 02:03:14 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 19:35:55 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ char	**ft_split(char *s, char c)
 			i = i + len;
 		}
 	}
+	
 	return (output);
 }

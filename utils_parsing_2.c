@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 02:02:39 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 05:38:57 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 19:37:24 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*ft_strjoin(char **arg, char *del, int size)
 			ft_strcat(result, del);
 		i++;
 	}
-	free(result);
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 06:20:22 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 19:38:26 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	**parse_input(int ac, char **av)
 {
 	int		i;
 	char	**splitted_args;
+	char	*tmp;
 
 	i = 1;
 	if (ac == 1)
@@ -31,7 +32,9 @@ char	**parse_input(int ac, char **av)
 			return (NULL);
 		i++;
 	}
-	splitted_args = ft_split(ft_strjoin(av + 1, " ", ac -1), ' ');
+	tmp = ft_strjoin(av + 1, " ", ac -1);
+	splitted_args = ft_split(tmp, ' ');
+	free(tmp);
 	if (splitted_args == NULL)
 		return (NULL);
 	return (splitted_args);

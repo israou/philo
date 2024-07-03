@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 02:10:26 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 06:20:22 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,34 @@ int	itterate(char	**splitted_args)
 	return (0);
 }
 
-int	check_splitted_args(int ac, char **av)
+t_two_d_arr	check_splitted_args(int ac, char **av)
 {
-	int		i;
-	int		j;
-	char	**splitted_args;
+	int			i;
+	int			j;
+	t_two_d_arr	splitted_args;
 
 	i = 0;
 	j = 0;
-	splitted_args = parse_input(ac, av);
-	if (!splitted_args)
-		return (-2);
-	while (splitted_args[i])
+	splitted_args.ret_val = 0;
+	splitted_args.s_a = parse_input(ac, av);
+	if (!splitted_args.s_a)
 	{
-		if (ft_atoi(splitted_args[i]) == -2)
-			return (-2);
+		splitted_args.ret_val = -2;
+		return (splitted_args);
+	}
+	while (splitted_args.s_a[i])
+	{
+		if (ft_atoi(splitted_args.s_a[i]) == -2)
+		{
+			splitted_args.ret_val = -2;
+			return (splitted_args);
+		}
 		i++;
 	}
-	if (itterate(splitted_args) == -2)
-		return (-2);
-	return (0);
+	if (itterate(splitted_args.s_a) == -2)
+	{
+		splitted_args.ret_val = -2;
+		return (splitted_args);
+	}
+	return (splitted_args);
 }

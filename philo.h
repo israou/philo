@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 03:16:48 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 06:14:16 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <sys/time.h>
 # include <time.h>
 # include <limits.h>
+
+typedef struct two_d_arr
+{
+	char	**s_a;
+	int		ret_val;
+}	t_two_d_arr;
 
 typedef struct philosopher
 {
@@ -56,7 +62,7 @@ char			**ft_split(char *s, char c);
 char			*ft_strjoin(char **arg, char *del, int size);
 int				check_empty(const char *str);
 char			**parse_input(int ac, char **av);
-int				check_splitted_args(int ac, char **av);
+t_two_d_arr		check_splitted_args(int ac, char **av);
 char			*ft_strncpy(char *s1, char *s2, int n);
 int				ft_isdigit(char c);
 int				itterate(char	**splitted_args);
@@ -82,4 +88,7 @@ t_philosopher	*init_simulation(t_philosopher *philosophers, char **av, int n);
 void			init_shared_data(t_philosopher *philosophers, int n);
 void			init_philo_attributes(t_philosopher *philo, char **av, int n);
 void			init_philo_mutexes(t_philosopher *philosophers, int n);
+
+void			freee(char **output);
+
 #endif

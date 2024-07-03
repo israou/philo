@@ -6,9 +6,11 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:23:51 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 03:07:21 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 06:02:26 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "philo.h"
 
 #include "philo.h"
 
@@ -45,32 +47,24 @@ void	mortal_engines(t_philosopher *philosophers)
 	pthread_mutex_unlock(&philosophers[i].write_mutex);
 }
 
-void	stop(t_philosopher *philosophers)
-{
-	int	swap;
-	int	i;
-
-	i = 0;
-	swap = 0;
-	pthread_mutex_lock(philosophers[i].stop_mutex);
-	swap = *(philosophers[i].stop_simulation);
-	pthread_mutex_unlock(philosophers[i].stop_mutex);
-	if (swap == -11)
-		return ;
-}
-
 void	death_checker(t_philosopher *philosophers)
 {
 	int	n;
 	int	i;
+	int	swap;
 
+	swap = 0;
 	n = philosophers[0].nb_philo;
 	while (1)
 	{
 		i = 0;
 		while (i < n)
 		{
-			stop(&philosophers[i]);
+			pthread_mutex_lock(philosophers[i].stop_mutex);
+			swap = *(philosophers[i].stop_simulation);
+			pthread_mutex_unlock(philosophers[i].stop_mutex);
+			if (swap == -11)
+				return ;
 			pthread_mutex_lock(&philosophers[i].last_happy_meal_mutex);
 			if (get_the_time() - philosophers[i].last_happy_meal
 				>= philosophers[i].time_to_die)
@@ -81,7 +75,7 @@ void	death_checker(t_philosopher *philosophers)
 			pthread_mutex_unlock(&philosophers[i].last_happy_meal_mutex);
 			i++;
 		}
-		customized_usleep(13);
+		customized_usleep(15);
 	}
 	return ;
 }

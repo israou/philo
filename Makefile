@@ -6,7 +6,7 @@
 #    By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 21:25:01 by ichaabi           #+#    #+#              #
-#    Updated: 2024/07/03 03:16:41 by ichaabi          ###   ########.fr        #
+#    Updated: 2024/07/03 06:19:12 by ichaabi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC =	ft_atoi.c \
 		utils_routine.c \
 		routines.c \
 		initialize.c \
-		threads.c
+		threads.c \
+		free_memory.c
 
 OBJ = $(SRC:.c=.o)
 

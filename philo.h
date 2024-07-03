@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 03:10:45 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/03 03:12:37 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,22 @@ int				check_splitted_args(int ac, char **av);
 char			*ft_strncpy(char *s1, char *s2, int n);
 int				ft_isdigit(char c);
 int				itterate(char	**splitted_args);
+int				check_negative(const char *str);
 
 //for routine
 int				assignin_forks(t_philosopher *philosophers, int n);
+void			create_threads(t_philosopher *philosopher);
 long long		get_the_time(void);
+void			customized_usleep(int sleep_duration);
+void			synchronisation(t_philosopher *philosopher);
+void			*routine_process(void *arg);
+void			eating_process(t_philosopher *philosopher);
 int				n_times_must_eat(t_philosopher *philosopher);
 void			thinking_process(t_philosopher *philosopher);
 void			sleeping_process(t_philosopher *philosopher);
-void			eating_process(t_philosopher *philosopher);
-void			synchronisation(t_philosopher *philosopher);
-
-void			*routine_process(void *arg);
-void			customized_usleep(int sleep_duration);
 
 //death
 void			death_checker(t_philosopher *philosophers);
-
-void			create_threads(t_philosopher *philosopher);
-int				check_negative(const char *str);
 
 //initialisation
 t_philosopher	*init_simulation(t_philosopher *philosophers, char **av, int n);

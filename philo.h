@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 21:28:47 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/04 17:19:32 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char			*ft_strncpy(char *s1, char *s2, int n);
 int				ft_isdigit(char c);
 int				itterate(char	**splitted_args);
 int				check_negative(const char *str);
+t_philosopher	*allocate_philosopher(int n);
+int				check_arguments(int ac);
 
 //for routine
 int				assignin_forks(t_philosopher *philosophers, int n);
@@ -81,6 +83,9 @@ void			thinking_process(t_philosopher *philosopher);
 void			sleeping_process(t_philosopher *philosopher);
 
 //death
+void			mortal_engines(t_philosopher *philosophers);
+int				check_death(t_philosopher *philosopher);
+int				check_stop_simulation(t_philosopher *philosopher);
 void			death_checker(t_philosopher *philosophers);
 
 //initialisation

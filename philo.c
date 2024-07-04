@@ -6,11 +6,24 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/04 01:51:07 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/04 16:58:23 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+t_philosopher	*allocate_philosopher(int n)
+{
+	t_philosopher	*philosopher;
+
+	philosopher = malloc(sizeof(t_philosopher) * n);
+	if (!philosopher)
+	{
+		printf("error--->malloc");
+		return (NULL);
+	}
+	return (philosopher);
+}
 
 int	main(int ac, char **av)
 {
@@ -19,17 +32,11 @@ int	main(int ac, char **av)
 	int				n;
 
 	n = ft_atoi(av[1]);
-	if (ac < 5 || ac > 6)
-	{
-		printf("Invalid argument\n");
+	if (check_arguments(ac) == -1)
 		return (-1);
-	}
-	philosopher = malloc(sizeof(t_philosopher) * n);
+	philosopher = allocate_philosopher(n);
 	if (!philosopher)
-	{
-		printf("error--->malloc");
 		return (-1);
-	}
 	splitted_args = check_splitted_args(ac, av);
 	if (splitted_args.ret_val == -2)
 	{

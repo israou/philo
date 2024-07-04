@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:27:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 21:28:59 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/04 01:51:07 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	main(int ac, char **av)
 	splitted_args = check_splitted_args(ac, av);
 	if (splitted_args.ret_val == -2)
 	{
-		freee(splitted_args.s_a);
 		free(philosopher);
 		return (-1);
 	}

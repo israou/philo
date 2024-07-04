@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 21:28:28 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/04 01:43:23 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,9 @@ int	itterate(char	**splitted_args)
 t_two_d_arr	check_splitted_args(int ac, char **av)
 {
 	int			i;
-	int			j;
 	t_two_d_arr	splitted_args;
 
 	i = 0;
-	j = 0;
 	splitted_args.ret_val = 0;
 	splitted_args.s_a = parse_input(ac, av);
 	if (!splitted_args.s_a)
@@ -83,6 +81,7 @@ t_two_d_arr	check_splitted_args(int ac, char **av)
 		if (ft_atoi(splitted_args.s_a[i]) == -2)
 		{
 			splitted_args.ret_val = -2;
+			freee(splitted_args.s_a);
 			return (splitted_args);
 		}
 		i++;
@@ -90,6 +89,7 @@ t_two_d_arr	check_splitted_args(int ac, char **av)
 	if (itterate(splitted_args.s_a) == -2)
 	{
 		splitted_args.ret_val = -2;
+		freee(splitted_args.s_a);
 		return (splitted_args);
 	}
 	return (splitted_args);

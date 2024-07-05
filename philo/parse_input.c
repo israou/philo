@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/05 21:07:38 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 22:47:14 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_two_d_arr	parse_input(int ac, char **av)
 	t_two_d_arr	sa;
 	char		*tmp;
 
-	tmp = ft_strjoin(av + 1, " ", ac -1);
+	tmp = ft_strjoin(av + 1, " ", ac - 1);
 	sa.s_a = ft_split(tmp, ' ');
 	sa.ret_val = 0;
 	free(tmp);

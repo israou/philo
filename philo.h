@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 21:22:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/04 17:19:32 by ichaabi          ###   ########.fr       */
+/*   Created: 2024/06/03 21:01:55 by ichaabi           #+#    #+#             */
+/*   Updated: 2024/07/05 08:02:23 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,17 @@ typedef struct philosopher
 }	t_philosopher;
 
 //-------------------------------parsing
-int				ft_atoi(const char *str);
+long long		ft_atoi(const char *str);
 int				operation(const char *str, long long sign, int i);
 int				ft_strlen(char *str);
 char			**ft_split(char *s, char c);
 char			*ft_strjoin(char **arg, char *del, int size);
 int				check_empty(const char *str);
-char			**parse_input(int ac, char **av);
+t_two_d_arr		parse_input(int ac, char **av);
 t_two_d_arr		check_splitted_args(int ac, char **av);
 char			*ft_strncpy(char *s1, char *s2, int n);
 int				ft_isdigit(char c);
 int				itterate(char	**splitted_args);
-int				check_negative(const char *str);
 t_philosopher	*allocate_philosopher(int n);
 int				check_arguments(int ac);
 
@@ -93,7 +92,7 @@ t_philosopher	*init_simulation(t_philosopher *philosophers, char **av, int n);
 void			init_shared_data(t_philosopher *philosophers, int n);
 void			init_philo_attributes(t_philosopher *philo, char **av, int n);
 void			init_philo_mutexes(t_philosopher *philosophers, int n);
-
+int	atoi_demo(const char *str);
 void			freee(char **output);
 
 #endif

@@ -6,41 +6,52 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/04 17:06:23 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 08:00:19 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-char	**parse_input(int ac, char **av)
+t_two_d_arr parse_input(int ac, char **av)
 {
 	int		i;
-	char	**splitted_args;
+	t_two_d_arr sa;
 	char	*tmp;
 
-	i = 1;
-	if (ac == 1)
+	tmp = ft_strjoin(av + 1, " ", ac -1);
+	sa.s_a = ft_split(tmp, ' ');
+	sa.ret_val = 0;
+	if (sa.s_a == NULL)
 	{
-		printf("NOT ENOUGH\n");
-		return (NULL);
+		sa.ret_val = -1;
+		return (sa);
 	}
-	while (av[i])
+	i = 0;
+	while (sa.s_a[i])
 	{
-		if (check_empty(av[i]) == 1)
-			return (NULL);
-		if (check_negative(av[i]) == -1)
-			return (NULL);
+		if (ft_atoi(sa.s_a[i]) == 777 && ft_atoi(av[i + 1]) == 777)
+			return (sa);
+		else if (check_empty(sa.s_a[i]) == 1)
+		{
+			sa.ret_val = -1;
+			freee(sa.s_a);
+			return (sa);
+		}
+		else if (ft_atoi(sa.s_a[i]) < 0)
+		{
+			printf("NEEEGAAATIIIVEEE!\n");
+			printf("%lld", ft_atoi(sa.s_a[i]));
+			sa.ret_val = -1;
+			freee(sa.s_a);
+			return (sa);
+		}
 		i++;
 	}
-	tmp = ft_strjoin(av + 1, " ", ac -1);
-	splitted_args = ft_split(tmp, ' ');
 	free(tmp);
-	if (splitted_args == NULL)
-		return (NULL);
-	return (splitted_args);
+	return (sa);
 }
 
-int	itterate(char	**splitted_args)
+int	itterate(char **splitted_args)
 {
 	int	i;
 	int	j;
@@ -54,7 +65,7 @@ int	itterate(char	**splitted_args)
 			if (ft_isdigit(splitted_args[i][j]) != 1)
 			{
 				printf("Argument found is not digit \n");
-				return (-2);
+				return (-1);
 			}
 			j++;
 		}
@@ -69,19 +80,17 @@ t_two_d_arr	check_splitted_args(int ac, char **av)
 	t_two_d_arr	splitted_args;
 
 	i = 0;
-	splitted_args.ret_val = 0;
-	splitted_args.s_a = parse_input(ac, av);
-	if (!splitted_args.s_a)
+	splitted_args = parse_input(ac, av);
+	if (!splitted_args.s_a || splitted_args.ret_val == -1)
 	{
-		splitted_args.ret_val = -2;
+		splitted_args.ret_val = -1;
 		return (splitted_args);
 	}
 	while (splitted_args.s_a[i])
 	{
-		if (ft_atoi(splitted_args.s_a[i]) == -2
-			|| itterate(splitted_args.s_a) == -2)
+		if (itterate(splitted_args.s_a) == -1)
 		{
-			splitted_args.ret_val = -2;
+			splitted_args.ret_val = -1;
 			freee(splitted_args.s_a);
 			return (splitted_args);
 		}

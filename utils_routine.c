@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:41:11 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 03:07:21 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/04 23:39:29 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,7 @@ int	n_times_must_eat(t_philosopher *philosopher)
 		pthread_mutex_lock(philosopher->finished_mutex);
 		(*philosopher->finished_eaten)++;
 		if (*philosopher->finished_eaten == philosopher->nb_philo)
-		{
-			printf("All philosophers have eaten at least %d times\n",
-				philosopher->n_times_m_eat);
 			return (0);
-		}
 		pthread_mutex_unlock(philosopher->finished_mutex);
 	}
 	return (-1);

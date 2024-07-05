@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:35:24 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/03 02:24:04 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 06:59:12 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	operation(const char *str, long long sign, int i)
 	if ((res * sign) > 2147483647 || (res * sign) < -2147483648)
 	{
 		printf("Number out of range\n");
-		return (-2);
+		return (-1);
 	}
 	return (res);
 }
 
-int	ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	int			i;
 	long long	sign;
@@ -40,7 +40,7 @@ int	ft_atoi(const char *str)
 	i = 0;
 	sign = 1;
 	if (!str)
-		return (-2);
+		return (-1);
 	if (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -49,17 +49,9 @@ int	ft_atoi(const char *str)
 			sign *= -1;
 		i++;
 		if (str[i] == '-' || str[i] == '+')
-		{
-			printf("too much signs\n");
-			return (-2);
-		}
+			return (777);
 	}
 	res = operation(str, sign, i);
 	return (res * sign);
 }
 
-void	errors(char	*str)
-{
-	printf("%s\n", str);
-	exit(EXIT_FAILURE);
-}

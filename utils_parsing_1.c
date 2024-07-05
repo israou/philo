@@ -6,23 +6,11 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 01:49:17 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/04 16:58:19 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 07:54:32 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	check_negative(const char *str)
-{
-	if (ft_atoi(str) == -2)
-		return (-1);
-	if (ft_atoi(str) < 0)
-	{
-		printf("NEEEGAAATIIIVEEE!!!\n");
-		return (-1);
-	}
-	return (0);
-}
 
 int	check_empty(const char *str)
 {

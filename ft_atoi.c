@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 14:35:24 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/05 06:59:12 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 20:45:52 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ long long	ft_atoi(const char *str)
 	res = operation(str, sign, i);
 	return (res * sign);
 }
-

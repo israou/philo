@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 02:07:27 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/04 23:07:06 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 21:24:16 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,22 @@ t_philosopher	*init_simulation(t_philosopher *philosophers, char **av, int n)
 	init_philo_attributes(philosophers, av, n);
 	init_philo_mutexes(philosophers, n);
 	return (philosophers);
+}
+
+t_philosopher	*initialize_philos(char **av, t_two_d_arr s_a, int *n)
+{
+	t_philosopher	*philosopher;
+
+	*n = ft_atoi(av[1]);
+	philosopher = allocate_philosopher(*n);
+	if (!philosopher || s_a.ret_val == -1)
+		return (NULL);
+	freee(s_a.s_a);
+	philosopher = init_simulation(philosopher, av, *n);
+	if (assignin_forks(philosopher, philosopher->nb_philo) == -1)
+	{
+		free(philosopher);
+		return (NULL);
+	}
+	return (philosopher);
 }

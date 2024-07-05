@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 21:01:55 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/05 08:02:23 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/05 21:23:16 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ char			**ft_split(char *s, char c);
 char			*ft_strjoin(char **arg, char *del, int size);
 int				check_empty(const char *str);
 t_two_d_arr		parse_input(int ac, char **av);
+int				check_parse_input(char **s_a, char **av);
 t_two_d_arr		check_splitted_args(int ac, char **av);
+int				handle_errors_and_free(t_two_d_arr s_a, t_philosopher *philo);
 char			*ft_strncpy(char *s1, char *s2, int n);
 int				ft_isdigit(char c);
 int				itterate(char	**splitted_args);
 t_philosopher	*allocate_philosopher(int n);
-int				check_arguments(int ac);
+int				check_arguments(int ac, char **av);
+int				count_splitted_args(t_two_d_arr splitted_args);
 
 //for routine
 int				assignin_forks(t_philosopher *philosophers, int n);
@@ -92,7 +95,7 @@ t_philosopher	*init_simulation(t_philosopher *philosophers, char **av, int n);
 void			init_shared_data(t_philosopher *philosophers, int n);
 void			init_philo_attributes(t_philosopher *philo, char **av, int n);
 void			init_philo_mutexes(t_philosopher *philosophers, int n);
-int	atoi_demo(const char *str);
+t_philosopher	*initialize_philos(char **av, t_two_d_arr s_a, int *n);
 void			freee(char **output);
 
 #endif

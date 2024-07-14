@@ -6,7 +6,7 @@
 /*   By: ichaabi <ichaabi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 20:07:50 by ichaabi           #+#    #+#             */
-/*   Updated: 2024/07/05 22:47:14 by ichaabi          ###   ########.fr       */
+/*   Updated: 2024/07/14 23:12:04 by ichaabi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int	check_parse_input(char **s_a, char **av)
 			return (0);
 		else if (check_empty(s_a[i]) == 1)
 			return (-1);
+		else if (ft_atoi(s_a[i]) == 0)
+		{
+			printf("argument must be > 0\n");
+			return (-1);
+		}
 		else if (ft_atoi(s_a[i]) < 0)
 		{
 			printf("NEEEGAAATIIIVEEE!\n");
